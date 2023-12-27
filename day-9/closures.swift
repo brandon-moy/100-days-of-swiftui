@@ -71,3 +71,47 @@ let captainFirstTeam = team.sorted(by: { (name1: String, name2: String) -> Bool 
 
     return name1 < name2
 })
+
+// How can we shorten this syntax?
+
+// We don't need to specity the parameter types ebcause they must be strings and the return must be a bool so we can rewrite to this
+
+// let captainFirstTeam = team.sorted(by: { name1, name2 in
+
+// we can also use  trailing closure syntax which Swift allows
+let captainFirstTeam = team.sorted { name1, name2 in
+    if name1 == "Suzanne" {
+        return true
+    } else if name2 == "Suzanne" {
+        return false
+    }
+
+    return name1 < name2
+}
+
+// rather than passing the closure as a parameter, we just start the closure directly
+// Swift can also automatically provide parameter names for us - this is called shorthand syntax
+// instead of writing name1 or name2, we can use the special named values with $0 and $1
+
+let captainFirstTeam = team.sorted {
+    if $0 == "Suzanne" {
+        return true
+    } else if $1 == "Suzanne" {
+        return false
+    }
+
+    return $0 < $1
+}
+// this syntax isn't necessary everywhere and does make it less clear if values are being used more than once
+// if this was a reverse sort and using the values once, then it would be easier to understand
+let reverseTeam = team.sorted {
+    return $0 > $1
+}
+// we can also remove the return line because this is a single line
+let reverseTeam = team.sorted { $0 > $1 }
+
+// There are no fixed rules about when to use shorthand syntax and when not to, but in case it’s helpful I use shorthand syntax unless any of the following are true:
+
+// The closure’s code is long.
+// $0 and friends are used more than once each.
+// You get three or more parameters (e.g. $2, $3, etc).
