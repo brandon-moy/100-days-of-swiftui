@@ -115,3 +115,45 @@ let reverseTeam = team.sorted { $0 > $1 }
 // The closure’s code is long.
 // $0 and friends are used more than once each.
 // You get three or more parameters (e.g. $2, $3, etc).
+
+
+// Functions to accept functions are parameters
+
+// Previously we looked at this function
+func greetUser() {
+    print("Hi there!")
+}
+
+greetUser()
+
+var greetCopy: () -> Void = greetUser
+greetCopy()
+
+// Here’s a function that generates an array of integers by repeating a function a certain number of times, lets break it down
+
+// makeArray function, takes 2 parameters, one is a number of integers and also returns an array of integers
+// the second parameter is a function. it accepts no parameters itself but will return one integer every time it's called
+func makeArray(size: Int, using generator: () -> Int) -> [Int] {
+  // we create an empty array of integers
+    var numbers = [Int]()
+  // loop through as many times as requested
+    for _ in 0..<size {
+      // call the generator function that was passed as a paramter which returns a number
+        let newNumber = generator()
+      // add the number to the array
+        numbers.append(newNumber)
+    }
+  // return the array of numbers
+    return numbers
+}
+
+// You can accept multiple function parameters in which you can specify multiple trailing closures
+func doImportantWork(first: () -> Void, second: () -> Void, third: () -> Void) {
+    print("About to start first work")
+    first()
+    print("About to start second work")
+    second()
+    print("About to start third work")
+    third()
+    print("Done!")
+}
