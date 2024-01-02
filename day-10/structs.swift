@@ -99,3 +99,84 @@ var archer = Employee(name: "Sterling Archer", vacationAllocated: 14)
 archer.vacationTaken += 4
 archer.vacationRemaining = 5
 print(archer.vacationAllocated)
+
+// How to take action when a property changes
+
+// Swift lets us create property observers, which are special pieces of code that run when properties change.
+//  These take two forms: a didSet observer to run when the property just changed, and a willSet observer to run before the property changed.
+
+// Let's look at this example without observers
+struct Game {
+    var score = 0
+}
+
+var game = Game()
+game.score += 10
+print("Score is now \(game.score)")
+game.score -= 3
+print("Score is now \(game.score)")
+game.score += 1
+// but this makes 3 changes and only prints twice
+
+// If we attach a property observer, whenever the score changes it will print the score
+struct Game {
+    var score = 0 {
+        didSet {
+            print("Score is now \(score)")
+        }
+    }
+}
+
+var game = Game()
+game.score += 10
+game.score -= 3
+game.score += 1
+
+// Swift also automaticaly provides the constants oldValue inside of didSet and newValue inside of willSet before the property changes
+struct App {
+    var contacts = [String]() {
+        willSet {
+            print("Current value is: \(contacts)")
+            print("New value will be: \(newValue)")
+        }
+
+        didSet {
+            print("There are now \(contacts.count) contacts.")
+            print("Old value was \(oldValue)")
+        }
+    }
+}
+
+var app = App()
+app.contacts.append("Adrian E")
+app.contacts.append("Allen W")
+app.contacts.append("Ish S")
+
+// Initializers are specialized methods that are designed to prepare a new struct instance to be used.
+// you can also create your own as long as you follow one golden rule: all properties must have a value by the time the initializer ends.
+struct Player {
+    let name: String
+    let number: Int
+}
+
+// this the memberwise initializer, which is a fancy way of saying an initializer that accepts each property in the order it was defined.
+let player = Player(name: "Megan R", number: 15)
+
+// We could write our own but the catch is to be careful to distinguish between the names nad parameters coming in and the names of properties being assigned.
+struct Player {
+    let name: String
+    let number: Int
+
+    init(name: String, number: Int) {
+        self.name = name
+        self.number = number
+    }
+}
+
+// A few things to note
+// 1. There is no func keyword. Yes, this looks like a function in terms of its syntax, but Swift treats initializers specially.
+// 2. Even though this creates a new Player instance, initializers never explicitly have a return type – they always return the type of data they belong to.
+// 3. I’ve used self to assign parameters to properties to clarify we mean “assign the name parameter to my name property”.
+
+// Important: Although you can call other methods of your struct inside your initializer, you can’t do 
+// so before assigning values to all your properties – Swift needs to be sure everything is safe before doing anything else.
