@@ -184,3 +184,20 @@ for i in 1...3 {
 print("Loop is finished!")
 users.removeAll()
 print("Array is clear!")
+
+// Swift’s classes work a bit like signposts: every copy of a class instance we have is actually a signpost pointing to the same underlying piece of data. 
+// Mostly this matters because of the way changing one copy changes all the others, but it also matters because of how classes treat variable properties.
+
+// Example:
+class User {
+    var name = "Paul"
+}
+
+let user = User()
+user.name = "Taylor"
+print(user.name)
+
+// That creates a constant User instance, but then changes it – it changes the constant value. That’s bad, right?
+
+// Except it doesn’t change the constant value at all. Yes, the data inside the class has changed, 
+// but the class instance itself – the object we created – has not changed, and in fact can’t be changed because we made it constant.
