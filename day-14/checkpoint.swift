@@ -15,4 +15,9 @@ func initialThoughts(_ numbers: [Int]?) -> Int {
   return random
 }
 
-func oneLiner(_ numbers: [Int]?) -> Int { return numbers?.randomElement() ?? Int.random(in: 1...100)  }
+// final solution to checkpoint 9
+func returnRandomInteger(_ numbers: [Int]?) -> Int { return numbers?.randomElement() ?? Int.random(in: 1...100)  }
+
+print(randomNumber([10, 20, 30, 40, 50]))
+print(randomNumber([]))
+print(randomNumber(nil))
