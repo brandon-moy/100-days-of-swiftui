@@ -14,3 +14,5 @@ func initialThoughts(_ numbers: [Int]?) -> Int {
   
   return random
 }
+
+func oneLiner(_ numbers: [Int]?) -> Int { return numbers?.randomElement() ?? Int.random(in: 1...100)  }
